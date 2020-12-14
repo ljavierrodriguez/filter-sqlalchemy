@@ -19,3 +19,18 @@ INSERT INTO addresses (address, user_id) VALUES
 ('Grecia 451', 2),
 ('Manuel Montt 1274', 3),
 ('Clark 729', 4);
+
+
+INSERT INTO sports (name) VALUES 
+('Soccer'),
+('Baseball'),
+('Tennis'),
+('Voleyball');
+
+INSERT INTO sports_users (sport_id, user_id) VALUES
+(1, 1),
+(2, 1),
+(1, 3),
+(2, 2),
+(3, 3),
+(4, 3);

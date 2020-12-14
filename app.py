@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify, render_template
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
 from flask_cors import CORS
-from models import db, User, Address
+from models import db, User, Address, UserSport, Sport
 
 app = Flask(__name__)
 app.url_map.strict_slashes = False
@@ -25,9 +25,10 @@ def search(name=None, gender=None, address=None):
         name = request.json.get('name', None)
         gender = request.json.get('gender', None)
         address = request.json.get('address', None)
+        sport_id = request.json.get('sport_id', None)
 
-        if name and gender and address:
-            users = User.query.filter(User.name.like('%'+name+'%'), User.gender==gender).join(User.addresses).filter(Address.address.like('%'+address+'%')).all()
+        if name and gender and address and sport_id:
+            users = User.query.filter(User.name.like('%'+name+'%'), User.gender==gender).join(User.addresses).filter(Address.address.like('%'+address+'%')).join(UserSport).filter(UserSport.columns.sport_id._in([sport_id])).all()
             users = list(map(lambda user: user.serialize(), users))
             return jsonify(users), 200
         elif name and address:
@@ -48,6 +49,10 @@ def search(name=None, gender=None, address=None):
             return jsonify(users), 200
         elif address:
             users = User.query.join(User.addresses).filter(Address.address.like('%'+address+'%')).all()
+            users = list(map(lambda user: user.serialize(), users))
+            return jsonify(users), 200
+        elif sport_id:
+            users = User.query.join(UserSport).filter(UserSport.sport_id.in_([sport_id])).all()
             users = list(map(lambda user: user.serialize(), users))
             return jsonify(users), 200
         else:
