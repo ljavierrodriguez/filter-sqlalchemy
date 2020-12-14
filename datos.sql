@@ -2,6 +2,10 @@
 SELECT id, name, lastname, email, phone, gender
 FROM users;
 
+SELECT * FROM sports;
+
+SELECT * FROM sports_users;
+
 INSERT INTO users (name, lastname, email, phone)
 VALUES 
 ('Martina', 'Ojeda', 'mojeda@gmail.com', '55555551'),
@@ -21,7 +25,7 @@ INSERT INTO addresses (address, user_id) VALUES
 ('Clark 729', 4);
 
 
-INSERT INTO sports (name) VALUES 
+INSERT INTO sports (sport_name) VALUES 
 ('Soccer'),
 ('Baseball'),
 ('Tennis'),
